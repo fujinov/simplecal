@@ -9,7 +9,7 @@ weekday = ['SUN','MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 today = datetime.date.today()
 date = today
 
-def create_calendar():
+def create_layout():
     calen = calendar.Calendar(firstweekday=6)
     days = calen.monthdatescalendar(date.year, date.month)
     layout = [[sg.Text(date.year, font=(None, 13, 'bold'))],
@@ -33,7 +33,7 @@ def create_calendar():
         layout.append(inner.copy())
     return layout
 
-layout = create_calendar()
+layout = create_layout()
 window = sg.Window('Simple Calendar', layout)
 
 while True:
@@ -43,9 +43,9 @@ while True:
     elif event == '<':
         window.close()
         date = datetime.date(date.year, date.month, 1) - datetime.timedelta(days=1)
-        window = sg.Window('Simple Calendar', create_calendar())
+        window = sg.Window('Simple Calendar', create_layout())
     elif event == '>':
         window.close()
         date = datetime.date(date.year, date.month, 28) + datetime.timedelta(days=4)
-        window = sg.Window('Simple Calendar', create_calendar())
+        window = sg.Window('Simple Calendar', create_layout())
 window.close()
