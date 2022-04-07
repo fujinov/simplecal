@@ -5,11 +5,11 @@ import PySimpleGUI as sg
 
 
 sg.theme('LightBlue6')
-weekday = ['SUN','MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']  
 today = datetime.date.today()
 cal_date = today
 
 def create_layout():
+    weekday = ['SUN','MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']  
     cal = calendar.Calendar(firstweekday=6)
     days = cal.monthdatescalendar(cal_date.year, cal_date.month)
     layout = [[sg.Text(cal_date.year, font=(None, 13, 'bold'))],
@@ -44,19 +44,23 @@ def create_layout():
         layout.append(inner.copy())
     return layout
 
-layout = create_layout()
-window = sg.Window('Simple Calendar', layout)
+def main():
+    global cal_date
+    layout = create_layout()
+    window = sg.Window('Simple Calendar', layout)
+    while True:
+        event, _ = window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        elif event == '<':
+            window.close()
+            cal_date = datetime.date(cal_date.year, cal_date.month, 1) - datetime.timedelta(days=1)
+            window = sg.Window('Simple Calendar', create_layout())
+        elif event == '>':
+            window.close()
+            cal_date = datetime.date(cal_date.year, cal_date.month, 28) + datetime.timedelta(days=4)
+            window = sg.Window('Simple Calendar', create_layout())
+    window.close()
 
-while True:
-    event, values = window.read()
-    if event == sg.WIN_CLOSED:
-        break
-    elif event == '<':
-        window.close()
-        cal_date = datetime.date(cal_date.year, cal_date.month, 1) - datetime.timedelta(days=1)
-        window = sg.Window('Simple Calendar', create_layout())
-    elif event == '>':
-        window.close()
-        cal_date = datetime.date(cal_date.year, cal_date.month, 28) + datetime.timedelta(days=4)
-        window = sg.Window('Simple Calendar', create_layout())
-window.close()
+if __name__ == '__main__':
+    main()
