@@ -13,7 +13,7 @@ def create_layout():
     cal = calendar.Calendar(firstweekday=6)
     days = cal.monthdatescalendar(cal_date.year, cal_date.month)
     layout = [[sg.Text(cal_date.year, font=(None, 13, 'bold'))],
-              [sg.Push(), sg.Button('<'), sg.Text(cal_date.month, font=(None, 30)), sg.Button('>'), sg.Push()]]
+              [sg.Push(), sg.Button('<<'), sg.Button('<'), sg.Text(cal_date.month, font=(None, 30)), sg.Button('>'), sg.Button('>>'), sg.Push()]]
     inner = []
     
     for week in weekday:
@@ -59,6 +59,14 @@ def main():
         elif event == '>':
             window.close()
             cal_date = datetime.date(cal_date.year, cal_date.month, 28) + datetime.timedelta(days=4)
+            window = sg.Window('Simple Calendar', create_layout())
+        elif event == '<<':
+            window.close()
+            cal_date = datetime.date(cal_date.year - 1, cal_date.month, 1)
+            window = sg.Window('Simple Calendar', create_layout())
+        elif event == '>>':
+            window.close()
+            cal_date = datetime.date(cal_date.year + 1, cal_date.month, 1)
             window = sg.Window('Simple Calendar', create_layout())
     window.close()
 
