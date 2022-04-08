@@ -48,26 +48,21 @@ def main():
     global cal_date
     layout = create_layout()
     window = sg.Window('Simple Calendar', layout)
+
     while True:
         event, _ = window.read()
         if event == sg.WIN_CLOSED:
             break
         elif event == '<':
-            window.close()
             cal_date = datetime.date(cal_date.year, cal_date.month, 1) - datetime.timedelta(days=1)
-            window = sg.Window('Simple Calendar', create_layout())
         elif event == '>':
-            window.close()
             cal_date = datetime.date(cal_date.year, cal_date.month, 28) + datetime.timedelta(days=4)
-            window = sg.Window('Simple Calendar', create_layout())
         elif event == '<<':
-            window.close()
             cal_date = datetime.date(cal_date.year - 1, cal_date.month, 1)
-            window = sg.Window('Simple Calendar', create_layout())
         elif event == '>>':
-            window.close()
             cal_date = datetime.date(cal_date.year + 1, cal_date.month, 1)
-            window = sg.Window('Simple Calendar', create_layout())
+        window.close()
+        window = sg.Window('Simple Calendar', create_layout())
     window.close()
 
 if __name__ == '__main__':
