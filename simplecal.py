@@ -6,9 +6,8 @@ import PySimpleGUI as sg
 
 sg.theme('LightBlue6')
 today = datetime.date.today()
-cal_date = today
 
-def create_layout():
+def create_layout(cal_date):
     weekday = ['SUN','MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']  
     cal = calendar.Calendar(firstweekday=6)
     days = cal.monthdatescalendar(cal_date.year, cal_date.month)
@@ -45,8 +44,8 @@ def create_layout():
     return layout
 
 def main():
-    global cal_date
-    layout = create_layout()
+    cal_date = today
+    layout = create_layout(cal_date)
     window = sg.Window('Simple Calendar', layout)
 
     while True:
@@ -62,7 +61,7 @@ def main():
         elif event == '>>':
             cal_date = datetime.date(cal_date.year + 1, cal_date.month, 1)
         window.close()
-        window = sg.Window('Simple Calendar', create_layout())
+        window = sg.Window('Simple Calendar', create_layout(cal_date))
     window.close()
 
 if __name__ == '__main__':
